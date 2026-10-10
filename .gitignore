@@ -1,0 +1,5 @@
+# ./cstruct/.gitignore
+
+build/
+*.o
+*.exe
