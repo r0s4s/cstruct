@@ -1,8 +1,7 @@
 /* ./cstruct/tests/test_dynamic_array.c */
 
 #include "test.h"
-
-#include "../include/dynamic_array.h"
+#include "dynamic_array.h"
 
 int main(void) {
     DynamicArray array;

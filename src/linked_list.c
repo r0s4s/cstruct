@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-#include "../include/linked_list.h"
+#include "linked_list.h"
 
 typedef struct Node {
     void* data;         // Generic data pointer

@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "../include/dynamic_array.h"
+#include "dynamic_array.h"
 
 ErrorCode dynamic_array_init(DynamicArray *array, size_t capacity, size_t element_size) {
     // Check for invalid parameter values

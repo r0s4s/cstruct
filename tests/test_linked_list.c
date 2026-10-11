@@ -1,8 +1,7 @@
 /* ./cstruct/tests/test_linked_list.c */
 
 #include "test.h"
-
-#include "../include/linked_list.h"
+#include "linked_list.h"
 
 typedef struct {
     void** items;
