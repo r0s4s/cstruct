@@ -53,6 +53,7 @@ cstruct/
 | `CSTRUCT_ERR_INVALID_ARG` | Bad argument (e.g. `NULL`, size 0)  |
 | `CSTRUCT_ERR_OVERFLOW`    | `size_t` arithmetic would overflow  |
 | `CSTRUCT_ERR_ALLOC`       | `malloc` / `realloc` failed         |
+| `CSTRUCT_ERR_UNDERFLOW`   | Operation on empty container        |
 
 ## Usage
 
