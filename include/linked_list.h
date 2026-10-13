@@ -25,6 +25,7 @@ ErrorCode linked_list_delete_at_position(LinkedList* list, size_t index);
 
 void* linked_list_search_by_pointer(const LinkedList* list, const void* value);
 void* linked_list_search_by_position(const LinkedList* list, size_t index);
+void* linked_list_get_head(const LinkedList* list);
 
 void linked_list_traverse(const LinkedList* list, void (*visit)(void* data, void* context), void* context);
 void linked_list_free(LinkedList* list);

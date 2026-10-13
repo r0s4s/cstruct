@@ -9,7 +9,7 @@ A small C library implementing classic data structures.
 - [x] **Dynamic Array**
 - [x] **Linked List**
 - [x] **Stack**
-- [ ] **Queue**
+- [x] **Queue**
 - [ ] **Deque**
 - [ ] **Hash Map**
 - [ ] **Hash Set**

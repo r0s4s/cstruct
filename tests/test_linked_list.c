@@ -29,6 +29,7 @@ int main(void) {
     CHECK(list.size == 0);
     CHECK(list.head == NULL);
     CHECK(list.tail == NULL);
+    CHECK(linked_list_get_head(&list) == NULL);
 
     /* Insert at end */
     int a = 1, b = 2, c = 3;
@@ -36,6 +37,7 @@ int main(void) {
     CHECK(linked_list_insert_at_end(&list, &b) == CSTRUCT_SUCCESS);
     CHECK(linked_list_insert_at_end(&list, &c) == CSTRUCT_SUCCESS);
     CHECK(list.size == 3);
+    CHECK(linked_list_get_head(&list) == &a);
 
     /* Search by position */
     CHECK(linked_list_search_by_position(&list, 0) == &a);
@@ -70,6 +72,7 @@ int main(void) {
     CHECK(linked_list_search_by_position(&list, 1) == &a);
     CHECK(linked_list_search_by_position(&list, 3) == &c);
     CHECK(list.tail != NULL); // tail unchanged
+    CHECK(linked_list_get_head(&list) == &front);
 
     /* Insert at position (middle) */
     int mid = 42;
@@ -137,6 +140,7 @@ int main(void) {
     CHECK(linked_list_search_by_position(NULL, 0) == NULL);
     CHECK(linked_list_search_by_pointer(NULL, &a) == NULL);
     CHECK(linked_list_search_by_pointer(&list, NULL) == NULL);
+    CHECK(linked_list_get_head(NULL) == NULL);
 
     /* Traverse with NULL args is a safe no-op */
     linked_list_traverse(NULL, collect, &col);   // must not crash

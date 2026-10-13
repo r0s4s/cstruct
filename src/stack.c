@@ -53,7 +53,7 @@ ErrorCode stack_pop(Stack* stack) {
 }
 
 void* stack_peek(const Stack* stack) {
-    // Check for invalid parameter value
+    // Check for invalid parameter values
     if (stack == NULL || stack->data.size == 0) {
         return NULL;
     }

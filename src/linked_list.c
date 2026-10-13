@@ -245,6 +245,15 @@ void* linked_list_search_by_position(const LinkedList* list, size_t index) {
     return current->data; // Return the node at the specific index
 }
 
+void* linked_list_get_head(const LinkedList* list) {
+    // Check for invalid parameter values
+    if (list == NULL || list->head == NULL) {
+        return NULL;
+    }
+
+    return list->head->data; // Return the list's head data
+}
+
 void linked_list_traverse(const LinkedList* list, void (*visit)(void* data, void* context), void* context) {
     // Check for invalid parameter values
     if (list == NULL || visit == NULL) {
