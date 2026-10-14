@@ -254,6 +254,15 @@ void* linked_list_get_head(const LinkedList* list) {
     return list->head->data; // Return the list's head data
 }
 
+void* linked_list_get_tail(const LinkedList* list) {
+    // Check for invalid parameter values
+    if (list == NULL || list->tail == NULL) {
+        return NULL;
+    }
+
+    return list->tail->data; // Return the list's tail data 
+}
+
 void linked_list_traverse(const LinkedList* list, void (*visit)(void* data, void* context), void* context) {
     // Check for invalid parameter values
     if (list == NULL || visit == NULL) {

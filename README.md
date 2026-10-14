@@ -10,7 +10,7 @@ A small C library implementing classic data structures.
 - [x] **Linked List**
 - [x] **Stack**
 - [x] **Queue**
-- [ ] **Deque**
+- [x] **Deque**
 - [ ] **Hash Map**
 - [ ] **Hash Set**
 - [ ] **Binary Tree**

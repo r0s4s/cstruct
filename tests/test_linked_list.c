@@ -30,6 +30,7 @@ int main(void) {
     CHECK(list.head == NULL);
     CHECK(list.tail == NULL);
     CHECK(linked_list_get_head(&list) == NULL);
+    CHECK(linked_list_get_tail(&list) == NULL);
 
     /* Insert at end */
     int a = 1, b = 2, c = 3;
@@ -38,6 +39,7 @@ int main(void) {
     CHECK(linked_list_insert_at_end(&list, &c) == CSTRUCT_SUCCESS);
     CHECK(list.size == 3);
     CHECK(linked_list_get_head(&list) == &a);
+    CHECK(linked_list_get_tail(&list) == &c);
 
     /* Search by position */
     CHECK(linked_list_search_by_position(&list, 0) == &a);
@@ -73,6 +75,7 @@ int main(void) {
     CHECK(linked_list_search_by_position(&list, 3) == &c);
     CHECK(list.tail != NULL); // tail unchanged
     CHECK(linked_list_get_head(&list) == &front);
+    CHECK(linked_list_get_tail(&list) == &c);
 
     /* Insert at position (middle) */
     int mid = 42;
@@ -89,6 +92,7 @@ int main(void) {
     CHECK(linked_list_insert_at_position(&list, &last, list.size) == CSTRUCT_SUCCESS);
     CHECK(list.size == 6);
     CHECK(linked_list_search_by_position(&list, 5) == &last);
+    CHECK(linked_list_get_tail(&list) == &last);
 
     /* Delete at beginning */
     CHECK(linked_list_delete_at_beginning(&list) == CSTRUCT_SUCCESS);
@@ -101,6 +105,7 @@ int main(void) {
     CHECK(list.size == 4);
     CHECK(linked_list_search_by_position(&list, 3) == &c);
     CHECK(linked_list_search_by_position(&list, 4) == NULL);  // gone
+    CHECK(linked_list_get_tail(&list) == &c);
 
     /* Delete at position (middle) */
 
@@ -122,6 +127,7 @@ int main(void) {
     CHECK(linked_list_delete_at_position(&list, 1) == CSTRUCT_SUCCESS);
     CHECK(list.size == 1);
     CHECK(linked_list_search_by_position(&list, 0) == &b);
+    CHECK(linked_list_get_tail(&list) == &b);
 
     /* Invalid arguments */
     CHECK(linked_list_insert_at_end(NULL, &a) == CSTRUCT_ERR_INVALID_ARG);
@@ -141,6 +147,7 @@ int main(void) {
     CHECK(linked_list_search_by_pointer(NULL, &a) == NULL);
     CHECK(linked_list_search_by_pointer(&list, NULL) == NULL);
     CHECK(linked_list_get_head(NULL) == NULL);
+    CHECK(linked_list_get_tail(NULL) == NULL);
 
     /* Traverse with NULL args is a safe no-op */
     linked_list_traverse(NULL, collect, &col);   // must not crash
