@@ -6,10 +6,10 @@
 #include <stddef.h>
 
 #include "error.h"
-#include "linked_list.h"
+#include "list.h"
 
 typedef struct Queue {
-    LinkedList data; // Linked list to hold the queue elements
+    List data; // Linked list to hold the queue elements
 } Queue;
 
 ErrorCode queue_init(Queue* queue);

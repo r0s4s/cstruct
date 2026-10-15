@@ -8,10 +8,11 @@ ErrorCode deque_init(Deque* deque) {
         return CSTRUCT_ERR_INVALID_ARG;
     }
 
-    // Initialize the linked list to hold the deque's elements
-    ErrorCode init_code = linked_list_init(&deque->data);
+    // Initialize the linked list to hold the deque elements
+    ErrorCode init_code = list_init(&deque->data);
     if (init_code != CSTRUCT_SUCCESS) {
-        return init_code; // Initialization failed
+        // Initialization failed
+        return init_code;
     }
 
     return CSTRUCT_SUCCESS;
@@ -24,9 +25,10 @@ ErrorCode deque_insert_front(Deque* deque, const void* value) {
     }
 
     // Insert the value at the front of the deque
-    ErrorCode insert_code = linked_list_insert_at_beginning(&deque->data, value);
+    ErrorCode insert_code = list_insert_at_beginning(&deque->data, value);
     if (insert_code != CSTRUCT_SUCCESS) {
-        return insert_code; // Insertion failed
+        // Insertion failed
+        return insert_code;
     }
 
     return CSTRUCT_SUCCESS;
@@ -39,9 +41,10 @@ ErrorCode deque_insert_back(Deque* deque, const void* value) {
     }
 
     // Insert the value at the end of the deque
-    ErrorCode insert_code = linked_list_insert_at_end(&deque->data, value);
+    ErrorCode insert_code = list_insert_at_end(&deque->data, value);
     if (insert_code != CSTRUCT_SUCCESS) {
-        return insert_code; // Insertion failed
+        // Insertion failed
+        return insert_code;
     }
 
     return CSTRUCT_SUCCESS;
@@ -59,9 +62,10 @@ ErrorCode deque_delete_front(Deque* deque) {
     }
 
     // Delete the value at the beginning of the deque
-    ErrorCode delete_code = linked_list_delete_at_beginning(&deque->data);
+    ErrorCode delete_code = list_delete_at_beginning(&deque->data);
     if (delete_code != CSTRUCT_SUCCESS) {
-        return delete_code; // Deletion failed
+        // Deletion failed
+        return delete_code;
     }
 
     return CSTRUCT_SUCCESS;
@@ -79,9 +83,10 @@ ErrorCode deque_delete_back(Deque* deque) {
     }
 
     // Delete the value at the end of the deque
-    ErrorCode delete_code = linked_list_delete_at_end(&deque->data);
+    ErrorCode delete_code = list_delete_at_end(&deque->data);
     if (delete_code != CSTRUCT_SUCCESS) {
-        return delete_code; // Deletion failed
+        // Deletion failed
+        return delete_code;
     }
 
     return CSTRUCT_SUCCESS; 
@@ -93,8 +98,8 @@ void* deque_peek_front(const Deque* deque) {
         return NULL;
     }
     
-    // Directly return the head of the deque's data linked list
-    return linked_list_get_head(&deque->data);
+    // Directly return the head of the deque data linked list
+    return list_get_head(&deque->data);
 }
 
 void* deque_peek_back(const Deque* deque) {
@@ -103,8 +108,8 @@ void* deque_peek_back(const Deque* deque) {
         return NULL;
     }
     
-    // Directly return the tail of the deque's data linked list
-    return linked_list_get_tail(&deque->data);
+    // Directly return the tail of the deque data linked list
+    return list_get_tail(&deque->data);
 }
 
 void deque_free(Deque* deque) {
@@ -113,6 +118,6 @@ void deque_free(Deque* deque) {
         return;
     }
     
-    // Free the deque's linked list
-    linked_list_free(&deque->data);
+    // Free the deque linked list
+    list_free(&deque->data);
 }

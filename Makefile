@@ -16,7 +16,7 @@ TEST_BINS = $(patsubst tests/%.c,$(BUILD)/%,$(TEST_SRCS))
 # Build every test binary
 all: $(TEST_BINS)
 
-# Each test links against the whole library (fine at this size)
+# Each test links against the whole library
 $(BUILD)/%: tests/%.c $(LIB_SRCS) $(HEADERS) | $(BUILD)
 	$(CC) $(CFLAGS) $(INCLUDES) $< $(LIB_SRCS) -o $@
 

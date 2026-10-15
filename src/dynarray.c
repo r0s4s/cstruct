@@ -1,12 +1,12 @@
-/* ./cstruct/src/dynamic_array.c */
+/* ./cstruct/src/dynarray.c */
 
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 
-#include "dynamic_array.h"
+#include "dynarray.h"
 
-ErrorCode dynamic_array_init(DynamicArray *array, size_t capacity, size_t element_size) {
+ErrorCode dynarray_init(DynArray *array, size_t capacity, size_t element_size) {
     // Check for invalid parameter values
     if (array == NULL || capacity == 0 || element_size == 0) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -24,15 +24,15 @@ ErrorCode dynamic_array_init(DynamicArray *array, size_t capacity, size_t elemen
     }
 
     // Initialize the dynamic array
-    array->data = new_data;
-    array->size = 0;
-    array->capacity = capacity;
+    array->data         = new_data;
+    array->size         = 0;
+    array->capacity     = capacity;
     array->element_size = element_size;
 
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode dynamic_array_resize(DynamicArray *array, size_t new_capacity) {
+ErrorCode dynarray_resize(DynArray *array, size_t new_capacity) {
     // Check for invalid parameter values
     if (array == NULL || array->element_size == 0) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -65,7 +65,7 @@ ErrorCode dynamic_array_resize(DynamicArray *array, size_t new_capacity) {
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode dynamic_array_insert(DynamicArray *array, const void *new_data) {
+ErrorCode dynarray_insert(DynArray *array, const void *new_data) {
     // Check for invalid parameter values
     if (array == NULL || new_data == NULL) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -77,24 +77,26 @@ ErrorCode dynamic_array_insert(DynamicArray *array, const void *new_data) {
             return CSTRUCT_ERR_OVERFLOW;
         }
 
-        ErrorCode resize_code = dynamic_array_resize(array, array->capacity * 2);
+        ErrorCode resize_code = dynarray_resize(array, array->capacity * 2);
         if (resize_code != CSTRUCT_SUCCESS) {
-            return resize_code; // Propagate the real error code from the resize call
+            // Propagate the real error code from the resize call
+            return resize_code;
         }
     }
 
-    // Compute the new_data address
+    // Compute the new data address
     void *insertion_address = (char *)array->data + (array->size * array->element_size);
 
-    // Copy the new_data into the array
+    // Copy the new data into the array
     memcpy(insertion_address, new_data, array->element_size);
 
     // Update the size of the array
     array->size++;
+
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode dynamic_array_delete(DynamicArray* array, size_t index) {
+ErrorCode dynarray_delete(DynArray* array, size_t index) {
     // Check for invalid parameter values
     if (array == NULL || index >= array->size) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -109,20 +111,21 @@ ErrorCode dynamic_array_delete(DynamicArray* array, size_t index) {
 
     // Update the size of the data array
     array->size--;
+
     return CSTRUCT_SUCCESS;
 }
 
-void* dynamic_array_get(const DynamicArray* array, size_t index) {
+void* dynarray_get(const DynArray* array, size_t index) {
     // Check for invalid parameter values
     if (array == NULL || index >= array->size) {
-        return NULL; // Because this function returns void*
+        return NULL;
     }
 
     // Get the desired value at index
     return (char *)array->data + index * array->element_size;
 }
 
-void dynamic_array_free(DynamicArray* array) {
+void dynarray_free(DynArray* array) {
     // Check if the data array is not NULL
     if (array == NULL) return;
 

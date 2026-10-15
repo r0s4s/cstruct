@@ -6,10 +6,10 @@
 #include <stddef.h>
 
 #include "error.h"
-#include "dynamic_array.h"
+#include "dynarray.h"
 
 typedef struct Stack {
-    DynamicArray data;  // Dynamic array to hold the stack elements
+    DynArray data; // Dynamic array to hold the stack elements
 } Stack;
 
 ErrorCode stack_init(Stack* stack, size_t capacity, size_t element_size);

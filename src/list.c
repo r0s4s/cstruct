@@ -1,15 +1,15 @@
-/* ./cstruct/src/linked_list.c */
+/* ./cstruct/src/list.c */
 
 #include <stdlib.h>
 
-#include "linked_list.h"
+#include "list.h"
 
 typedef struct Node {
-    void* data;         // Generic data pointer
-    struct Node* next;  // Pointer to the next node
+    void*           data;   // Generic data pointer
+    struct Node*    next;   // Pointer to the next node
 } Node;
 
-ErrorCode linked_list_init(LinkedList* list) {
+ErrorCode list_init(List* list) {
     // Check for invalid parameter value
     if (list == NULL) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -23,7 +23,7 @@ ErrorCode linked_list_init(LinkedList* list) {
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode linked_list_insert_at_beginning(LinkedList* list, const void* data) {
+ErrorCode list_insert_at_beginning(List* list, const void* data) {
     // Check for invalid parameter values
     if (list == NULL || data == NULL) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -41,16 +41,17 @@ ErrorCode linked_list_insert_at_beginning(LinkedList* list, const void* data) {
     // Update the linked list
     list->head = new_node;
     if (list->size == 0) {
-        // If the list was empty the new node is also the first and last
+        // If the list is empty the new node is also the first and last
         list->tail = new_node;
     }
 
     // Increment the size of the linked list
     list->size++;
+
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode linked_list_insert_at_end(LinkedList* list, const void* data) {
+ErrorCode list_insert_at_end(List* list, const void* data) {
     // Check for invalid parameter values
     if (list == NULL || data == NULL) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -67,21 +68,22 @@ ErrorCode linked_list_insert_at_end(LinkedList* list, const void* data) {
 
     // Update the linked list
     if (list->size == 0) {
-        // If the linked list is empty, the new node is also the first and last
+        // If the linked list is empty the new node is also the first and last
         list->head = new_node;
         list->tail = new_node;
     } else {
-        // Otherwise, set the next pointer of the current tail to the new node
+        // Otherwise set the next pointer of the current tail to the new node
         list->tail->next = new_node;
         list->tail = new_node;
     }
 
-    // Increment linked list size
+    // Increment the size of the linked list
     list->size++;
+
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode linked_list_insert_at_position(LinkedList* list, const void* data, size_t index) {
+ErrorCode list_insert_at_position(List* list, const void* data, size_t index) {
     // Check for invalid parameter values
     if (list == NULL || data == NULL || index > list->size) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -98,11 +100,11 @@ ErrorCode linked_list_insert_at_position(LinkedList* list, const void* data, siz
 
     // Handle edge cases
     if (list->size == 0) {
-        // If the linked list is empty, the new node is also the first and last
+        // If the linked list is empty the new node is also the first and last
         list->head = new_node;
         list->tail = new_node;
     } else if (index == 0) {
-        // If the index is 0, the new node is at the beginning
+        // If the index is 0 the new node is at the beginning
         new_node->next = list->head;
         list->head = new_node;
     } else if (index == list->size) {
@@ -118,16 +120,17 @@ ErrorCode linked_list_insert_at_position(LinkedList* list, const void* data, siz
         }
 
         // Insert the new node after the insertion index
-        new_node->next = current->next;
-        current->next = new_node;
+        new_node->next  = current->next;
+        current->next   = new_node;
     }
     
-    // Increment linked list size
+    // Increment the size of the linked list
     list->size++;
+
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode linked_list_delete_at_beginning(LinkedList* list) {
+ErrorCode list_delete_at_beginning(List* list) {
     // Check for invalid parameter values
     if (list == NULL || list->size == 0) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -149,10 +152,11 @@ ErrorCode linked_list_delete_at_beginning(LinkedList* list) {
 
     // Decrement the size of the linked list
     list->size--;
+
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode linked_list_delete_at_end(LinkedList* list) {
+ErrorCode list_delete_at_end(List* list) {
     // Check for invalid parameter values
     if (list == NULL || list->size == 0) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -177,10 +181,11 @@ ErrorCode linked_list_delete_at_end(LinkedList* list) {
 
     // Decrement the size of the linked list
     list->size--;
+
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode linked_list_delete_at_position(LinkedList* list, size_t index) {
+ErrorCode list_delete_at_position(List* list, size_t index) {
     // Check for invalid parameter values
     if (list == NULL || list->size == 0 || index >= list->size) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -188,12 +193,12 @@ ErrorCode linked_list_delete_at_position(LinkedList* list, size_t index) {
 
     // Delegate
     if (index == 0) {
-        return linked_list_delete_at_beginning(list);
+        return list_delete_at_beginning(list);
     }
 
     // Delegate
     if (index == list->size - 1) {
-        return linked_list_delete_at_end(list);
+        return list_delete_at_end(list);
     }
 
     // Traverse the linked list to find the node to delete
@@ -208,10 +213,31 @@ ErrorCode linked_list_delete_at_position(LinkedList* list, size_t index) {
 
     // Decrement the size of the linked list
     list->size--;
+
     return CSTRUCT_SUCCESS;
 }
 
-void* linked_list_search_by_pointer(const LinkedList* list, const void* value) {
+void* list_get_head(const List* list) {
+    // Check for invalid parameter values
+    if (list == NULL || list->head == NULL) {
+        return NULL;
+    }
+
+    // Return the list head data
+    return list->head->data;
+}
+
+void* list_get_tail(const List* list) {
+    // Check for invalid parameter values
+    if (list == NULL || list->tail == NULL) {
+        return NULL;
+    }
+
+    // Return the list tail data
+    return list->tail->data;
+}
+
+void* list_search_by_pointer(const List* list, const void* value) {
     // Check for invalid parameter values
     if (list == NULL || value == NULL) {
         return NULL;
@@ -221,16 +247,18 @@ void* linked_list_search_by_pointer(const LinkedList* list, const void* value) {
     Node* current = list->head;
     while (current != NULL) {
         if (current->data == value) {
-            return current->data; // Return the node if the value is found
+            // Return the node if the value is found
+            return current->data;
         }
 
         current = current->next;
     }
 
-    return NULL; // Return NULL if the value is not found
+    // Return NULL if the value is not found
+    return NULL;
 }
 
-void* linked_list_search_by_position(const LinkedList* list, size_t index) {
+void* list_search_by_position(const List* list, size_t index) {
     // Check for invalid parameter values
     if (list == NULL || index >= list->size) {
         return NULL;
@@ -242,28 +270,11 @@ void* linked_list_search_by_position(const LinkedList* list, size_t index) {
         current = current->next;
     }
 
-    return current->data; // Return the node at the specific index
+    // Return the node at the specific index
+    return current->data;
 }
 
-void* linked_list_get_head(const LinkedList* list) {
-    // Check for invalid parameter values
-    if (list == NULL || list->head == NULL) {
-        return NULL;
-    }
-
-    return list->head->data; // Return the list's head data
-}
-
-void* linked_list_get_tail(const LinkedList* list) {
-    // Check for invalid parameter values
-    if (list == NULL || list->tail == NULL) {
-        return NULL;
-    }
-
-    return list->tail->data; // Return the list's tail data 
-}
-
-void linked_list_traverse(const LinkedList* list, void (*visit)(void* data, void* context), void* context) {
+void list_traverse(const List* list, void (*visit)(void* data, void* context), void* context) {
     // Check for invalid parameter values
     if (list == NULL || visit == NULL) {
         return;
@@ -277,7 +288,7 @@ void linked_list_traverse(const LinkedList* list, void (*visit)(void* data, void
     }
 }
 
-void linked_list_free(LinkedList* list) {
+void list_free(List* list) {
     // Check for invalid parameter value
     if (list == NULL) {
         return;

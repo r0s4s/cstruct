@@ -9,9 +9,10 @@ ErrorCode stack_init(Stack* stack, size_t capacity, size_t element_size) {
     }
 
     // Initialize the dynamic array to hold the stack elements
-    ErrorCode init_code = dynamic_array_init(&stack->data, capacity, element_size);
+    ErrorCode init_code = dynarray_init(&stack->data, capacity, element_size);
     if (init_code != CSTRUCT_SUCCESS) {
-        return init_code; // Initialization failed
+        // Initialization failed
+        return init_code;
     }
 
     return CSTRUCT_SUCCESS;
@@ -24,9 +25,10 @@ ErrorCode stack_push(Stack* stack, const void* value) {
     }
 
     // Push the value to the top of the stack
-    ErrorCode insert_code = dynamic_array_insert(&stack->data, value);
+    ErrorCode insert_code = dynarray_insert(&stack->data, value);
     if (insert_code != CSTRUCT_SUCCESS) {
-        return insert_code; // Insertion failed
+        // Insertion failed
+        return insert_code;
     }
 
     return CSTRUCT_SUCCESS;
@@ -44,9 +46,10 @@ ErrorCode stack_pop(Stack* stack) {
     }
 
     // Pop the element at the top of stack
-    ErrorCode delete_code = dynamic_array_delete(&stack->data, stack->data.size - 1);
+    ErrorCode delete_code = dynarray_delete(&stack->data, stack->data.size - 1);
     if (delete_code != CSTRUCT_SUCCESS) {
-        return delete_code; // Deletion failed
+        // Deletion failed
+        return delete_code;
     }
 
     return CSTRUCT_SUCCESS;
@@ -59,8 +62,8 @@ void* stack_peek(const Stack* stack) {
     }
     
     // Directly return the element at the top of the stack
-    // If NULL is returned, it is assumed that the call failed
-    return dynamic_array_get(&stack->data, stack->data.size - 1);
+    // If NULL is returned it is assumed that the call failed
+    return dynarray_get(&stack->data, stack->data.size - 1);
 }
 
 void stack_free(Stack* stack) {
@@ -69,6 +72,6 @@ void stack_free(Stack* stack) {
         return;
     }
     
-    // Free the stack's dynamic array
-    dynamic_array_free(&stack->data);
+    // Free the stack dynamic array
+    dynarray_free(&stack->data);
 }
