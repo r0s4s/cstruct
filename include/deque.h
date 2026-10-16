@@ -6,19 +6,16 @@
 #include <stddef.h>
 
 #include "error.h"
-#include "list.h"
+#include "dlist.h"
 
 typedef struct Deque {
-    List data; // Linked list to hold the deque elements
+    DList data; // Doubly linked list to hold the deque elements
 } Deque;
 
 ErrorCode deque_init(Deque* deque);
 ErrorCode deque_insert_front(Deque* deque, const void* value);
 ErrorCode deque_insert_back(Deque* deque, const void* value);
 ErrorCode deque_delete_front(Deque* deque);
-
-// Note: deque_delete_back is O(n) with a singly linked list,
-// For an O(1) time complexity a doubly linked list is required
 ErrorCode deque_delete_back(Deque* deque);
 
 void* deque_peek_front(const Deque* deque);

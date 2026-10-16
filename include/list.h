@@ -16,12 +16,12 @@ typedef struct List {
 } List;
 
 ErrorCode list_init(List* list);
-ErrorCode list_insert_at_beginning(List* list, const void* data);
-ErrorCode list_insert_at_end(List* list, const void* data);
-ErrorCode list_insert_at_position(List* list, const void* data, size_t index);
-ErrorCode list_delete_at_beginning(List* list);
-ErrorCode list_delete_at_end(List* list);
-ErrorCode list_delete_at_position(List* list, size_t index);
+ErrorCode list_insert_front(List* list, const void* data);
+ErrorCode list_insert_back(List* list, const void* data);
+ErrorCode list_insert_at(List* list, const void* data, size_t index);
+ErrorCode list_delete_front(List* list);
+ErrorCode list_delete_back(List* list);
+ErrorCode list_delete_at(List* list, size_t index);
 
 void* list_get_head(const List* list);
 void* list_get_tail(const List* list);

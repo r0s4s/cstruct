@@ -23,7 +23,7 @@ ErrorCode list_init(List* list) {
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode list_insert_at_beginning(List* list, const void* data) {
+ErrorCode list_insert_front(List* list, const void* data) {
     // Check for invalid parameter values
     if (list == NULL || data == NULL) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -51,7 +51,7 @@ ErrorCode list_insert_at_beginning(List* list, const void* data) {
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode list_insert_at_end(List* list, const void* data) {
+ErrorCode list_insert_back(List* list, const void* data) {
     // Check for invalid parameter values
     if (list == NULL || data == NULL) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -83,7 +83,7 @@ ErrorCode list_insert_at_end(List* list, const void* data) {
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode list_insert_at_position(List* list, const void* data, size_t index) {
+ErrorCode list_insert_at(List* list, const void* data, size_t index) {
     // Check for invalid parameter values
     if (list == NULL || data == NULL || index > list->size) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -130,7 +130,7 @@ ErrorCode list_insert_at_position(List* list, const void* data, size_t index) {
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode list_delete_at_beginning(List* list) {
+ErrorCode list_delete_front(List* list) {
     // Check for invalid parameter values
     if (list == NULL || list->size == 0) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -156,7 +156,7 @@ ErrorCode list_delete_at_beginning(List* list) {
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode list_delete_at_end(List* list) {
+ErrorCode list_delete_back(List* list) {
     // Check for invalid parameter values
     if (list == NULL || list->size == 0) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -185,7 +185,7 @@ ErrorCode list_delete_at_end(List* list) {
     return CSTRUCT_SUCCESS;
 }
 
-ErrorCode list_delete_at_position(List* list, size_t index) {
+ErrorCode list_delete_at(List* list, size_t index) {
     // Check for invalid parameter values
     if (list == NULL || list->size == 0 || index >= list->size) {
         return CSTRUCT_ERR_INVALID_ARG;
@@ -193,12 +193,12 @@ ErrorCode list_delete_at_position(List* list, size_t index) {
 
     // Delegate
     if (index == 0) {
-        return list_delete_at_beginning(list);
+        return list_delete_front(list);
     }
 
     // Delegate
     if (index == list->size - 1) {
-        return list_delete_at_end(list);
+        return list_delete_back(list);
     }
 
     // Traverse the linked list to find the node to delete
@@ -247,14 +247,14 @@ void* list_search_by_pointer(const List* list, const void* value) {
     Node* current = list->head;
     while (current != NULL) {
         if (current->data == value) {
-            // Return the node if the value is found
+            // Return the data if the pointer matches
             return current->data;
         }
 
         current = current->next;
     }
 
-    // Return NULL if the value is not found
+    // Return NULL if the pointer is not found
     return NULL;
 }
 

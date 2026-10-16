@@ -4,8 +4,8 @@
 #include "list.h"
 
 typedef struct {
-    void** items;
-    size_t count;
+    void**  items;
+    size_t  count;
 } Collector;
 
 static void count_element(void* data, void* context) {
@@ -14,8 +14,8 @@ static void count_element(void* data, void* context) {
 }
 
 static void collect(void* data, void* context) {
-    Collector* c = context;
-    c->items[c->count++] = data;
+    Collector* c            = context;
+    c->items[c->count++]    = data;
 }
 
 int main(void) {
@@ -34,9 +34,9 @@ int main(void) {
 
     // Insert at end
     int a = 1, b = 2, c = 3;
-    CHECK(list_insert_at_end(&list, &a) == CSTRUCT_SUCCESS);
-    CHECK(list_insert_at_end(&list, &b) == CSTRUCT_SUCCESS);
-    CHECK(list_insert_at_end(&list, &c) == CSTRUCT_SUCCESS);
+    CHECK(list_insert_back(&list, &a) == CSTRUCT_SUCCESS);
+    CHECK(list_insert_back(&list, &b) == CSTRUCT_SUCCESS);
+    CHECK(list_insert_back(&list, &c) == CSTRUCT_SUCCESS);
     CHECK(list.size == 3);
     CHECK(list_get_head(&list) == &a);
     CHECK(list_get_tail(&list) == &c);
@@ -69,7 +69,7 @@ int main(void) {
 
     // Insert at beginning
     int front = 0;
-    CHECK(list_insert_at_beginning(&list, &front) == CSTRUCT_SUCCESS);
+    CHECK(list_insert_front(&list, &front) == CSTRUCT_SUCCESS);
     CHECK(list.size == 4);
     CHECK(list_search_by_position(&list, 0) == &front);
     CHECK(list_search_by_position(&list, 1) == &a);
@@ -81,7 +81,7 @@ int main(void) {
 
     // Insert at position (middle)
     int mid = 42;
-    CHECK(list_insert_at_position(&list, &mid, 2) == CSTRUCT_SUCCESS);
+    CHECK(list_insert_at(&list, &mid, 2) == CSTRUCT_SUCCESS);
     CHECK(list.size == 5);
     CHECK(list_search_by_position(&list, 0) == &front);
     CHECK(list_search_by_position(&list, 1) == &a);
@@ -91,19 +91,19 @@ int main(void) {
 
     // Insert at position (index == size, i.e. append)
     int last = 100;
-    CHECK(list_insert_at_position(&list, &last, list.size) == CSTRUCT_SUCCESS);
+    CHECK(list_insert_at(&list, &last, list.size) == CSTRUCT_SUCCESS);
     CHECK(list.size == 6);
     CHECK(list_search_by_position(&list, 5) == &last);
     CHECK(list_get_tail(&list) == &last);
 
     // Delete at beginning
-    CHECK(list_delete_at_beginning(&list) == CSTRUCT_SUCCESS);
+    CHECK(list_delete_front(&list) == CSTRUCT_SUCCESS);
     CHECK(list.size == 5);
     CHECK(list_search_by_position(&list, 0) == &a);
     CHECK(list_search_by_position(&list, 1) == &mid);
 
     // Delete at end
-    CHECK(list_delete_at_end(&list) == CSTRUCT_SUCCESS);
+    CHECK(list_delete_back(&list) == CSTRUCT_SUCCESS);
     CHECK(list.size == 4);
     CHECK(list_search_by_position(&list, 3) == &c);
     CHECK(list_search_by_position(&list, 4) == NULL);
@@ -111,36 +111,36 @@ int main(void) {
 
     // Delete at position (middle)
     // list is now: [a, mid, b, c]
-    CHECK(list_delete_at_position(&list, 1) == CSTRUCT_SUCCESS);
+    CHECK(list_delete_at(&list, 1) == CSTRUCT_SUCCESS);
     CHECK(list.size == 3);
     CHECK(list_search_by_position(&list, 0) == &a);
     CHECK(list_search_by_position(&list, 1) == &b);
     CHECK(list_search_by_position(&list, 2) == &c);
 
     // Delete at position (index 0, delegates to beginning)
-    CHECK(list_delete_at_position(&list, 0) == CSTRUCT_SUCCESS);
+    CHECK(list_delete_at(&list, 0) == CSTRUCT_SUCCESS);
     CHECK(list.size == 2);
     CHECK(list_search_by_position(&list, 0) == &b);
 
     // Delete at position (last index, delegates to end)
     // list is now = [b, c]
-    CHECK(list_delete_at_position(&list, 1) == CSTRUCT_SUCCESS);
+    CHECK(list_delete_at(&list, 1) == CSTRUCT_SUCCESS);
     CHECK(list.size == 1);
     CHECK(list_search_by_position(&list, 0) == &b);
     CHECK(list_get_tail(&list) == &b);
 
     // Invalid arguments
-    CHECK(list_insert_at_end(NULL, &a) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_insert_at_end(&list, NULL) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_insert_at_beginning(NULL, &a) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_insert_at_beginning(&list, NULL) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_insert_at_position(NULL, &a, 0) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_insert_at_position(&list, NULL, 0) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_insert_at_position(&list, &a, 99) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_delete_at_position(&list, 99) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_delete_at_position(NULL, 0) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_delete_at_beginning(NULL) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_delete_at_end(NULL) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_insert_back(NULL, &a) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_insert_back(&list, NULL) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_insert_front(NULL, &a) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_insert_front(&list, NULL) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_insert_at(NULL, &a, 0) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_insert_at(&list, NULL, 0) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_insert_at(&list, &a, 99) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_delete_at(&list, 99) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_delete_at(NULL, 0) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_delete_front(NULL) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_delete_back(NULL) == CSTRUCT_ERR_INVALID_ARG);
 
     // Search on NULL/invalid
     CHECK(list_search_by_position(NULL, 0) == NULL);
@@ -155,12 +155,12 @@ int main(void) {
 
     // Drain to empty
     // list is now: [b]
-    CHECK(list_delete_at_beginning(&list) == CSTRUCT_SUCCESS);
+    CHECK(list_delete_front(&list) == CSTRUCT_SUCCESS);
     CHECK(list.size == 0);
     CHECK(list.head == NULL);
     CHECK(list.tail == NULL);
-    CHECK(list_delete_at_beginning(&list) == CSTRUCT_ERR_INVALID_ARG);
-    CHECK(list_delete_at_end(&list) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_delete_front(&list) == CSTRUCT_ERR_INVALID_ARG);
+    CHECK(list_delete_back(&list) == CSTRUCT_ERR_INVALID_ARG);
 
     // Free resets state
     list_free(&list);

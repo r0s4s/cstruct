@@ -8,8 +8,8 @@ ErrorCode deque_init(Deque* deque) {
         return CSTRUCT_ERR_INVALID_ARG;
     }
 
-    // Initialize the linked list to hold the deque elements
-    ErrorCode init_code = list_init(&deque->data);
+    // Initialize the doubly linked list to hold the deque elements
+    ErrorCode init_code = dlist_init(&deque->data);
     if (init_code != CSTRUCT_SUCCESS) {
         // Initialization failed
         return init_code;
@@ -25,7 +25,7 @@ ErrorCode deque_insert_front(Deque* deque, const void* value) {
     }
 
     // Insert the value at the front of the deque
-    ErrorCode insert_code = list_insert_at_beginning(&deque->data, value);
+    ErrorCode insert_code = dlist_insert_front(&deque->data, value);
     if (insert_code != CSTRUCT_SUCCESS) {
         // Insertion failed
         return insert_code;
@@ -40,8 +40,8 @@ ErrorCode deque_insert_back(Deque* deque, const void* value) {
         return CSTRUCT_ERR_INVALID_ARG;
     }
 
-    // Insert the value at the end of the deque
-    ErrorCode insert_code = list_insert_at_end(&deque->data, value);
+    // Insert the value at the back of the deque
+    ErrorCode insert_code = dlist_insert_back(&deque->data, value);
     if (insert_code != CSTRUCT_SUCCESS) {
         // Insertion failed
         return insert_code;
@@ -61,8 +61,8 @@ ErrorCode deque_delete_front(Deque* deque) {
         return CSTRUCT_ERR_UNDERFLOW;
     }
 
-    // Delete the value at the beginning of the deque
-    ErrorCode delete_code = list_delete_at_beginning(&deque->data);
+    // Delete the value at the front of the deque
+    ErrorCode delete_code = dlist_delete_front(&deque->data);
     if (delete_code != CSTRUCT_SUCCESS) {
         // Deletion failed
         return delete_code;
@@ -82,14 +82,14 @@ ErrorCode deque_delete_back(Deque* deque) {
         return CSTRUCT_ERR_UNDERFLOW;
     }
 
-    // Delete the value at the end of the deque
-    ErrorCode delete_code = list_delete_at_end(&deque->data);
+    // Delete the value at the back of the deque (O(1) with a doubly linked list)
+    ErrorCode delete_code = dlist_delete_back(&deque->data);
     if (delete_code != CSTRUCT_SUCCESS) {
         // Deletion failed
         return delete_code;
     }
 
-    return CSTRUCT_SUCCESS; 
+    return CSTRUCT_SUCCESS;
 }
 
 void* deque_peek_front(const Deque* deque) {
@@ -97,9 +97,9 @@ void* deque_peek_front(const Deque* deque) {
     if (deque == NULL || deque->data.size == 0) {
         return NULL;
     }
-    
-    // Directly return the head of the deque data linked list
-    return list_get_head(&deque->data);
+
+    // Directly return the head of the deque data doubly linked list
+    return dlist_get_head(&deque->data);
 }
 
 void* deque_peek_back(const Deque* deque) {
@@ -107,9 +107,9 @@ void* deque_peek_back(const Deque* deque) {
     if (deque == NULL || deque->data.size == 0) {
         return NULL;
     }
-    
-    // Directly return the tail of the deque data linked list
-    return list_get_tail(&deque->data);
+
+    // Directly return the tail of the deque data doubly linked list
+    return dlist_get_tail(&deque->data);
 }
 
 void deque_free(Deque* deque) {
@@ -117,7 +117,7 @@ void deque_free(Deque* deque) {
     if (deque == NULL) {
         return;
     }
-    
-    // Free the deque linked list
-    list_free(&deque->data);
+
+    // Free the deque doubly linked list
+    dlist_free(&deque->data);
 }

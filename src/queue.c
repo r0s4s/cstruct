@@ -25,7 +25,7 @@ ErrorCode queue_enqueue(Queue* queue, const void* value) {
     }
 
     // Enqueue the value at the end of the queue
-    ErrorCode insert_code = list_insert_at_end(&queue->data, value);
+    ErrorCode insert_code = list_insert_back(&queue->data, value);
     if (insert_code != CSTRUCT_SUCCESS) {
         // Insertion failed
         return insert_code;
@@ -46,7 +46,7 @@ ErrorCode queue_dequeue(Queue* queue) {
     }
 
     // Dequeue the value at the beginning of the queue
-    ErrorCode delete_code = list_delete_at_beginning(&queue->data);
+    ErrorCode delete_code = list_delete_front(&queue->data);
     if (delete_code != CSTRUCT_SUCCESS) {
         // Deletion failed
         return delete_code;
