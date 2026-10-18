@@ -90,7 +90,7 @@ ErrorCode dynarray_insert(DynArray *array, const void *new_data) {
     // Copy the new data into the array
     memcpy(insertion_address, new_data, array->element_size);
 
-    // Update the size of the array
+    // Increment the size of the array
     array->size++;
 
     return CSTRUCT_SUCCESS;

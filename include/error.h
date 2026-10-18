@@ -8,7 +8,8 @@ typedef enum {
     CSTRUCT_ERR_INVALID_ARG = -1,   // Invalid parameter value
     CSTRUCT_ERR_OVERFLOW    = -2,   // Overflow error
     CSTRUCT_ERR_ALLOC       = -3,   // Allocation failure
-    CSTRUCT_ERR_UNDERFLOW   = -4    // Operation on empty container
+    CSTRUCT_ERR_UNDERFLOW   = -4,   // Operation on empty container
+    CSTRUCT_ERR_NOT_FOUND   = -5    // Key not present in container
 } ErrorCode;
 
 #endif /* CSTRUCT_ERROR_H */
